@@ -161,7 +161,7 @@ struct node* playPrev(struct node* current){
     }
     if(current->prev == NULL){
         printf("No previous song.\n");
-        return current;  // stay on same song
+        return current;  // stay on same song, now i think it will work. 
     }
     current = current->prev;
     printf("Now Playing: %s - %s (%d sec)\n",
