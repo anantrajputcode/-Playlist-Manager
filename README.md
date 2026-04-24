@@ -128,10 +128,11 @@ On first run:
 1. Add 
 2. Delete 
 3. Display 
-4. Next 
-5. Prev 
-6. Search 
-7. Exit
+4. Current 
+5. Next 
+6. Prev 
+7. Search 
+8. Exit
 
 Enter your choice: _
 ```
@@ -205,7 +206,28 @@ No  Title                Artist           Duration
 - Handles empty playlist gracefully
 - Formatted for easy reading
 
-### 4. Play Next Song (Option 4)
+### 4. Current Song (Option 4)
+Displays the currently playing song details.
+
+**Behavior:**
+- Shows title, artist, and duration of the current song
+- Returns message if no song is currently playing
+
+**Output:**
+```
+Now Playing:
+----------------------------------
+Title   : Current Song Title
+Artist  : Current Artist Name
+Duration: XXX sec
+----------------------------------
+```
+
+**Use Cases:**
+- Check what song is currently playing
+- Quick reference without navigating away
+
+### 5. Play Next Song (Option 5)
 Moves to the next song in the playlist.
 
 **Behavior:**
@@ -223,7 +245,7 @@ Duration: XXX sec
 ----------------------------------
 ```
 
-### 5. Play Previous Song (Option 5)
+### 6. Play Previous Song (Option 6)
 Moves to the previous song in the playlist.
 
 **Behavior:**
@@ -241,11 +263,11 @@ Duration: XXX sec
 ----------------------------------
 ```
 
-### 6. Search Song (Option 6)
+### 7. Search Song (Option 7)
 Finds and displays a specific song by its serial number.
 
 **Steps:**
-1. Select option `6`
+1. Select option `7`
 2. Enter the serial number you want to search
 3. Song details are displayed
 
@@ -259,7 +281,7 @@ No  Title                Artist           Duration
 --------------------
 ```
 
-### 7. Exit (Option 7)
+### 8. Exit (Option 8)
 Saves the playlist and exits the program.
 
 **Process:**
@@ -281,10 +303,11 @@ No saved playlist found.
 1. Add 
 2. Delete 
 3. Display 
-4. Next 
-5. Prev 
-6. Search 
-7. Exit
+4. Current 
+5. Next 
+6. Prev 
+7. Search 
+8. Exit
 
 Enter your choice: 1
 
@@ -298,10 +321,11 @@ Enter duration (in seconds): 183
 1. Add 
 2. Delete 
 3. Display 
-4. Next 
-5. Prev 
-6. Search 
-7. Exit
+4. Current 
+5. Next 
+6. Prev 
+7. Search 
+8. Exit
 
 Enter your choice: 1
 
@@ -315,10 +339,11 @@ Enter duration (in seconds): 427
 1. Add 
 2. Delete 
 3. Display 
-4. Next 
-5. Prev 
-6. Search 
-7. Exit
+4. Current 
+5. Next 
+6. Prev 
+7. Search 
+8. Exit
 
 Enter your choice: 3
 
@@ -329,14 +354,25 @@ No  Title                Artist           Duration
 --------------------
 ```
 
-### Example 2: Navigation Through Playlist
+### Example 2: Checking Current Song
 
 ```
+Enter your choice: 4
+
 Now Playing:
 ----------------------------------
 Title   : Imagine
 Artist  : John Lennon
 Duration: 183 sec
+----------------------------------
+
+Enter your choice: 5
+
+Now Playing:
+----------------------------------
+Title   : Hey Jude
+Artist  : The Beatles
+Duration: 427 sec
 ----------------------------------
 
 Enter your choice: 4
@@ -347,8 +383,28 @@ Title   : Hey Jude
 Artist  : The Beatles
 Duration: 427 sec
 ----------------------------------
+```
+
+### Example 3: Navigation Through Playlist
+
+```
+Now Playing:
+----------------------------------
+Title   : Imagine
+Artist  : John Lennon
+Duration: 183 sec
+----------------------------------
 
 Enter your choice: 5
+
+Now Playing:
+----------------------------------
+Title   : Hey Jude
+Artist  : The Beatles
+Duration: 427 sec
+----------------------------------
+
+Enter your choice: 6
 
 Now Playing:
 ----------------------------------
@@ -358,7 +414,7 @@ Duration: 183 sec
 ----------------------------------
 ```
 
-### Example 3: Deleting a Song
+### Example 4: Deleting a Song
 
 ```
 ----- PLAYLIST -----
@@ -372,6 +428,10 @@ Enter your choice: 2
 
 Enter the index of song you want to delete: 2
 
+----------------------------------
+Song delete successfully
+----------------------------------
+
 ===== MUSIC PLAYLIST MANAGER =====
 
 Enter your choice: 3
@@ -383,10 +443,10 @@ No  Title                Artist           Duration
 --------------------
 ```
 
-### Example 4: Searching for a Song
+### Example 5: Searching for a Song
 
 ```
-Enter your choice: 6
+Enter your choice: 7
 
 Enter the serial number of the song: 1
 
@@ -451,7 +511,9 @@ Stairway to Heaven,Led Zeppelin,482
 | **Invalid Position** | Deleting with out-of-range index | "Invalid position." |
 | **End of Playlist** | Attempting next when at last song | "End of playlist." |
 | **Beginning of Playlist** | Attempting previous when at first song | "No previous song." |
-| **Empty Playlist on Next/Prev** | Current is NULL | "Playlist is empty." |
+| **Empty Playlist on Navigation** | Current is NULL | "Playlist is empty." |
+| **No Current Song** | Checking current when None playing | "No song is playing." |
+| **Successful Deletion** | Song deleted successfully | "Song delete successfully" |
 
 ### Graceful Degradation
 
@@ -460,6 +522,8 @@ The program handles edge cases smoothly:
 - **Last song deletion:** Updates `prev` pointer correctly
 - **Middle song deletion:** Maintains list integrity
 - **Navigation at boundaries:** Displays appropriate messages
+- **Current song display:** Shows meaningful feedback when no song is loaded
+- **Formatted output:** Consistent use of borders (dashes) for better readability
 
 ---
 
@@ -769,7 +833,7 @@ If you find this project helpful:
 
 ---
 
-## ⚡ Quick Start
+##  Quick Start
 
 ```bash
 # Compile
@@ -780,8 +844,9 @@ gcc -std=c99 music_playlist.c -o playlist -Wall
 
 # Add a song: Select option 1
 # Display all: Select option 3
-# Navigate: Use options 4 and 5
-# Exit: Select option 7 (auto-saves)
+# Check current song: Select option 4
+# Navigate: Use options 5 and 6
+# Exit: Select option 8 (auto-saves)
 ```
 
 ---
