@@ -14,7 +14,7 @@ void display(struct node*);
 struct node* playNext(struct node*);
 struct node* playPrev(struct node* current);
 void search(struct node*);
-struct node* save(struct node*);
+void save(struct node*);
 
 
 
@@ -184,7 +184,7 @@ void search(struct node* head){
 }
 
 
-struct node* save(struct node* head){
+void save(struct node* head){
     FILE *fp = fopen("playlist.txt", "w");
     struct node* ptr = head;
     while(ptr != NULL){
