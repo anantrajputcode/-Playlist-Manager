@@ -1,4 +1,4 @@
-# Music Playlist Manager
+# Playlist-Manager
 
 A command-line music playlist manager written in C, featuring a doubly-linked list implementation, persistent storage, and intuitive navigation controls.
 
@@ -74,8 +74,8 @@ struct node {
 ### Clone or Download
 ```bash
 # If using git
-git clone https://github.com/yourusername/music-playlist-manager.git
-cd music-playlist-manager
+git clone https://github.com/anantrajputcode/-Playlist-Manager.git
+cd Playlist-Manager
 
 # Or download the source file directly
 ```
@@ -87,18 +87,18 @@ gcc -std=c99 music_playlist.c -o playlist -Wall
 
 Or without warnings flag:
 ```bash
-gcc music_playlist.c -o playlist
+gcc playlist-manager.c -o playlist-manager
 ```
 
 ### Run the Program
 ```bash
-./playlist
+./playlist-manafer
 ```
 
 ### For Windows Users
 The code is portable and should compile on Windows without modifications:
 ```bash
-gcc -std=c99 music_playlist.c -o playlist.exe
+gcc -std=c99 playlist-manger.c -o playlist-manager.exe
 ```
 
 ---
@@ -108,7 +108,7 @@ gcc -std=c99 music_playlist.c -o playlist.exe
 ### Starting the Program
 
 ```bash
-./playlist
+./playlist-manager
 ```
 
 ### First Run
@@ -665,7 +665,7 @@ Contributions are welcome! Here's how you can help improve the Music Playlist Ma
 
 1. **Fork** the repository
    ```bash
-   git clone https://github.com/yourusername/music-playlist-manager.git
+   git clone https://github.com/anantrajputcode/-Playlist-Manager.git
    ```
 
 2. **Create** a feature branch
@@ -739,7 +739,7 @@ Before submitting a pull request, ensure:
 
 - [ ] Code compiles without warnings
   ```bash
-  gcc -std=c99 -Wall -Wextra music_playlist.c -o playlist
+  gcc -std=c99 -Wall -Wextra playlist-manager.c -o playlist-manager
   ```
 - [ ] All operations work correctly
 - [ ] Edge cases handled (empty playlist, single song, etc.)
@@ -837,10 +837,10 @@ If you find this project helpful:
 
 ```bash
 # Compile
-gcc -std=c99 music_playlist.c -o playlist -Wall
+gcc -std=c99 laylist-manager.c -o playlist-manager -Wall
 
 # Run
-./playlist
+./playlist-manager
 
 # Add a song: Select option 1
 # Display all: Select option 3
