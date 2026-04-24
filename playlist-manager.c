@@ -14,6 +14,7 @@ struct node* current = NULL;
 struct node* addSong(struct node* head);
 struct node* deleteSong(struct node*);
 void display(struct node*);
+void currentSong(struct node*);
 struct node* playNext(struct node*);
 struct node* playPrev(struct node* current);
 void search(struct node*);
@@ -42,7 +43,7 @@ int main()
     do {
         printf("\n===== MUSIC PLAYLIST MANAGER =====\n");
         printf("==================================\n");
-        printf("\n1.Add \n2.Delete \n3.Display \n4.Next \n5.Prev \n6.Search \n7.Exit\n");
+        printf("\n1.Add \n2.Delete \n3.Display \n4.Current \n5.Next \n6.Prev \n7.Search \n8.Exit\n");
         printf("Enter you choice : ");
         scanf("%d", &choice);
         switch(choice) {
@@ -50,10 +51,11 @@ int main()
             case 1: head = addSong(head); save(head); break;
             case 2: head = deleteSong(head); save(head); break;
             case 3: display(head); break;
-            case 4: current = playNext(current); break;
-            case 5: current = playPrev(current); break;
-            case 6: search(head); break;
-            case 7: save(head); exit(0);
+            case 4: currentSong(head); break;
+            case 5: current = playNext(current); break;
+            case 6: current = playPrev(current); break;
+            case 7: search(head); break;
+            case 8: save(head); exit(0);
             default: printf("\nInvalid choice\n");
         }
     } while(1); 
@@ -98,7 +100,9 @@ struct node* addSong(struct node* head){
 
 struct node* deleteSong(struct node* head){
     if(head == NULL){
+        printf("\n----------------------------------\n");
         printf("Playlist is empty.\n");
+        printf("----------------------------------\n");
         return NULL;
     }
     int n;
@@ -119,6 +123,9 @@ struct node* deleteSong(struct node* head){
             current = head;
 
         free(temp);
+        printf("----------------------------------\n");
+        printf("Song delete successfully\n");
+        printf("----------------------------------\n");
         return head;
     }
 
@@ -140,6 +147,9 @@ struct node* deleteSong(struct node* head){
     if(ptr->next != NULL)
     ptr->next->prev = ptr->prev;
     free(ptr);
+    printf("----------------------------------\n");
+    printf("Song delete successfully\n");
+    printf("----------------------------------\n");
     return head;
 }
 
@@ -166,7 +176,18 @@ void display(struct node* head){
 
 
 
-
+void currentSong(struct node* head){
+    if(current == NULL){
+        printf("No song is playing.\n");
+        return;
+    }
+    printf("\nNow Playing:\n");
+    printf("----------------------------------\n");
+    printf("Title   : %s\n", current-> title);
+    printf("Artist  : %s\n", current-> artist);
+    printf("Duration: %d sec\n", current-> duration);
+    printf("----------------------------------\n");
+}
 
 
 struct node* playNext(struct node* current){
@@ -175,7 +196,10 @@ struct node* playNext(struct node* current){
         return NULL;
     }
     if(current-> next == NULL){
+        printf("\nNow Playing:\n");
+        printf("----------------------------------\n");
         printf("End of playlist.\n");
+        printf("----------------------------------\n");
         return current;
     }
     struct node* ptr = current-> next;
@@ -196,11 +220,15 @@ struct node* playNext(struct node* current){
 
 struct node* playPrev(struct node* current){
     if(current == NULL){
+        printf("\n----------------------------------\n");
         printf("Playlist is empty.\n");
+        printf("----------------------------------\n");
         return NULL;
     }
     if(current->prev == NULL){
+        printf("\n----------------------------------\n");
         printf("No previous song.\n");
+        printf("----------------------------------\n");
         return current; 
     }
     current = current->prev;
