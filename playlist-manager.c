@@ -13,13 +13,16 @@ struct node* deleteSong(struct node*);
 void display(struct node*);
 struct node* playNext(struct node*);
 struct node* playPrev(struct node* current);
+void search(struct node*);
 int main()
 {
     int choice;
     struct node* head = NULL;
     current = head;
     do {
-        printf("\n1.Add 2.Delete 3.Display 4.Next 5.Prev 6.Search 7.Exit\n");
+        printf("\n===== MUSIC PLAYLIST MANAGER =====\n");
+        printf("==================================\n");
+        printf("\n1.Add \n2.Delete \n3.Display \n4.Next \n5.Prev \n6.Search \n7.Exit\n");
         scanf("%d", &choice);
         switch(choice) {
 
@@ -28,7 +31,7 @@ int main()
             case 3: display(head); break;
             case 4: current = playNext(current); break;
             case 5: current = playPrev(current); break;
-            case 6: search(); break;
+            case 6: search(head); break;
             case 7: exit(0);
             default: printf("\nInvalid choice\n");
         }
@@ -66,7 +69,7 @@ struct node* addSong(struct node* head){
 
 struct node* deleteSong(struct node* head){
     if(head == NULL){
-        printf("Playlist is empty.");
+        printf("Playlist is empty.\n");
         return NULL;
     }
     int n;
@@ -74,22 +77,40 @@ struct node* deleteSong(struct node* head){
     scanf("%d", &n);
     struct node* ptr = head;
     if(n == 1){
-        free(head);
-        ptr = ptr-> next;
-        ptr-> prev = NULL;
-        if(ptr == current)
-        current = ptr->next ? ptr->next : ptr->prev;
-        return ptr;
+        struct node* temp = head;
+
+        if(head->next == NULL){
+            current = NULL;
+            free(temp);
+            return NULL;
+        }
+        head = head->next;
+        head->prev = NULL;
+        if(current == temp)
+            current = head;
+
+        free(temp);
+        return head;
     }
+
     for(int i = 1; i < n && ptr != NULL; i++){
-        ptr = ptr-> next;
+        ptr = ptr->next;
     }
-    struct node* temp = ptr;
-    if(ptr-> prev != NULL)
-    ptr-> prev-> next = ptr-> next;
-    if(ptr-> next != NULL)
-    ptr-> next-> prev = ptr-> prev;
-    free(temp);
+    if(ptr == NULL){
+        printf("Invalid position.\n");
+        return head;
+    }
+    if(ptr == current){
+        if(ptr->next != NULL)
+            current = ptr->next;
+        else
+            current = ptr->prev;
+    }
+    if(ptr->prev != NULL)
+        ptr->prev->next = ptr->next;
+    if(ptr->next != NULL)
+        ptr->next->prev = ptr->prev;
+    free(ptr);
     return head;
 }
 
@@ -101,6 +122,7 @@ void display(struct node* head){
         printf("Playlist is empty\n");
         return;
     }
+    printf("%-3s %-20s %-15s %-10s\n", "No", "Title", "Artist", "Duration");
     while(ptr != NULL){
         printf("%2d. %-20s | %-15s | %3d sec\n",i, ptr->title, ptr->artist, ptr->duration);
         ptr = ptr->next;
@@ -120,7 +142,7 @@ struct node* playNext(struct node* current){
         return current;
     }
     struct node* ptr = current-> next;
-    printf("Now Playing: %s - %s (%d sec)\n", current->title, current->artist, current->duration);
+    printf("Now Playing: %s - %s (%d sec)\n", ptr->title, ptr->artist, ptr->duration);
     return current-> next;
     
 }
@@ -132,11 +154,26 @@ struct node* playPrev(struct node* current){
         printf("Playlist is empty.\n");
         return NULL;
     }
-    if(current-> prev == NULL){
-        printf("No song before the current SONG.\n");
+    if(current->prev == NULL){
+        printf("No previous song.\n");
+        return current;  // stay on same song
     }
-    struct node* ptr = current-> prev;
-    printf("Now Playing: %s - %s (%d sec)\n", current->title, current->artist, current->duration);
-    return current-> prev;
-    
+    current = current->prev;
+    printf("Now Playing: %s - %s (%d sec)\n",
+           current->title, current->artist, current->duration);
+    return current;
+}
+
+void search(struct node* head){
+    int n;
+    struct node* ptr = head;
+    printf("Enter the seriel number of the song: ");
+    scanf("%d", &n);
+    for(int i = 1; i < n; i++){
+        ptr = ptr-> next;
+    }
+    printf("\n----- PLAYLIST -----\n");
+    printf("%-3s %-20s %-15s %-10s\n", "No", "Title", "Artist", "Duration");
+    printf("%2d. %-20s | %-15s | %3d sec\n", n, ptr->title, ptr->artist, ptr->duration);
+    printf("--------------------\n");
 }
