@@ -14,6 +14,10 @@ void display(struct node*);
 struct node* playNext(struct node*);
 struct node* playPrev(struct node* current);
 void search(struct node*);
+struct node* save(struct node*);
+
+
+
 int main()
 {
     int choice;
@@ -23,16 +27,17 @@ int main()
         printf("\n===== MUSIC PLAYLIST MANAGER =====\n");
         printf("==================================\n");
         printf("\n1.Add \n2.Delete \n3.Display \n4.Next \n5.Prev \n6.Search \n7.Exit\n");
+        printf("Enter you choice : ");
         scanf("%d", &choice);
         switch(choice) {
 
-            case 1: head = addSong(head); break;
-            case 2: head = deleteSong(head); break;
+            case 1: head = addSong(head); save(head); break;
+            case 2: head = deleteSong(head); save(head); break;
             case 3: display(head); break;
             case 4: current = playNext(current); break;
             case 5: current = playPrev(current); break;
             case 6: search(head); break;
-            case 7: exit(0);
+            case 7: save(head); exit(0);
             default: printf("\nInvalid choice\n");
         }
     } while(1); 
@@ -176,4 +181,15 @@ void search(struct node* head){
     printf("%-3s %-20s %-15s %-10s\n", "No", "Title", "Artist", "Duration");
     printf("%2d. %-20s | %-15s | %3d sec\n", n, ptr->title, ptr->artist, ptr->duration);
     printf("--------------------\n");
+}
+
+
+struct node* save(struct node* head){
+    FILE *fp = fopen("playlist.txt", "w");
+    struct node* ptr = head;
+    while(ptr != NULL){
+        fprintf(fp, "%s,%s,%d\n", ptr->title, ptr->artist, ptr->duration);
+        ptr = ptr->next;
+    }
+    fclose(fp);
 }
