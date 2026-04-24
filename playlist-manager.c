@@ -7,6 +7,9 @@ struct node{
     struct node* prev;
     struct node* next;
 };
+
+
+
 struct node* current = NULL;
 struct node* addSong(struct node* head);
 struct node* deleteSong(struct node*);
@@ -15,14 +18,27 @@ struct node* playNext(struct node*);
 struct node* playPrev(struct node* current);
 void search(struct node*);
 void save(struct node*);
+struct node* load();
+
 
 
 
 int main()
 {
     int choice;
-    struct node* head = NULL;
+    struct node* head = load();
     current = head;
+    if(current != NULL){
+    printf("\n================================\n");
+    printf("      WELCOME TO PLAYLIST \n");
+    printf("=================================\n");
+    printf("\nNow Playing:\n");
+    printf("----------------------------------\n");
+    printf("Title   : %s\n", current->title);
+    printf("Artist  : %s\n", current->artist);
+    printf("Duration: %d sec\n", current->duration);
+    printf("----------------------------------\n");
+    }
     do {
         printf("\n===== MUSIC PLAYLIST MANAGER =====\n");
         printf("==================================\n");
@@ -43,6 +59,10 @@ int main()
     } while(1); 
     return 0;
 }
+
+
+
+
 
 
 struct node* addSong(struct node* head){
@@ -71,6 +91,10 @@ struct node* addSong(struct node* head){
     newSong-> prev = ptr;
     return head;
 }
+
+
+
+
 
 struct node* deleteSong(struct node* head){
     if(head == NULL){
@@ -112,12 +136,16 @@ struct node* deleteSong(struct node* head){
             current = ptr->prev;
     }
     if(ptr->prev != NULL)
-        ptr->prev->next = ptr->next;
+    ptr->prev->next = ptr->next;
     if(ptr->next != NULL)
-        ptr->next->prev = ptr->prev;
+    ptr->next->prev = ptr->prev;
     free(ptr);
     return head;
 }
+
+
+
+
 
 void display(struct node* head){
     struct node* ptr = head;
@@ -137,6 +165,10 @@ void display(struct node* head){
 }
 
 
+
+
+
+
 struct node* playNext(struct node* current){
     if(current == NULL){
         printf("PLaylist is empty.\n");
@@ -147,10 +179,18 @@ struct node* playNext(struct node* current){
         return current;
     }
     struct node* ptr = current-> next;
-    printf("Now Playing: %s - %s (%d sec)\n", ptr->title, ptr->artist, ptr->duration);
+    printf("\nNow Playing:\n");
+    printf("----------------------------------\n");
+    printf("Title   : %s\n", ptr-> title);
+    printf("Artist  : %s\n", ptr-> artist);
+    printf("Duration: %d sec\n", ptr-> duration);
+    printf("----------------------------------\n");
     return current-> next;
     
 }
+
+
+
 
 
 
@@ -161,13 +201,20 @@ struct node* playPrev(struct node* current){
     }
     if(current->prev == NULL){
         printf("No previous song.\n");
-        return current;  // stay on same song, now i think it will work. 
+        return current; 
     }
     current = current->prev;
-    printf("Now Playing: %s - %s (%d sec)\n",
-           current->title, current->artist, current->duration);
+    printf("\nNow Playing:\n");
+    printf("----------------------------------\n");
+    printf("Title   : %s\n", current-> title);
+    printf("Artist  : %s\n", current-> artist);
+    printf("Duration: %d sec\n", current-> duration);
+    printf("----------------------------------\n");
     return current;
 }
+
+
+
 
 void search(struct node* head){
     int n;
@@ -184,6 +231,9 @@ void search(struct node* head){
 }
 
 
+
+
+
 void save(struct node* head){
     FILE *fp = fopen("playlist.txt", "w");
     struct node* ptr = head;
@@ -192,4 +242,43 @@ void save(struct node* head){
         ptr = ptr->next;
     }
     fclose(fp);
+}
+
+
+
+
+struct node* load(){
+    FILE *fp = fopen("playlist.txt", "r");
+    if(fp == NULL){
+        printf("No saved playlist found.\n");
+        return NULL;
+    }
+    struct node *head = NULL, *ptr = NULL;
+    char line[150];
+    while(fgets(line, sizeof(line), fp)){
+        struct node* newSong = malloc(sizeof(struct node));
+        if(newSong == NULL){
+            printf("Memory allocation failed.\n");
+            break;
+        }
+        if(sscanf(line, "%[^,],%[^,],%d",
+                  newSong->title,
+                  newSong->artist,
+                  &newSong->duration) != 3){
+            free(newSong);
+            continue;
+        }
+        newSong->next = NULL;
+        newSong->prev = NULL;
+        if(head == NULL){
+            head = newSong;
+            ptr = head;
+        } else {
+            ptr->next = newSong;
+            newSong->prev = ptr;
+            ptr = newSong;
+        }
+    }
+    fclose(fp);
+    return head;
 }
