@@ -43,7 +43,7 @@ int main()
     do {
         printf("\n===== MUSIC PLAYLIST MANAGER =====\n");
         printf("==================================\n");
-        printf("\n1.Add \n2.Delete \n3.Display \n4.Current \n5.Next \n6.Prev \n7.Search \n8.Exit\n");
+        printf("\n1.Add \n2.Delete \n3.Display \n4.Current \n5.Next \n6.Prev \n7.Search \n8.Settings\n9.Exit\n");
         printf("Enter you choice : ");
         scanf("%d", &choice);
         switch(choice) {
